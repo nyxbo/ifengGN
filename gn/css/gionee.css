@@ -1,0 +1,383 @@
+html,
+body,
+div,
+nav,
+ul,
+li,
+a,
+p,
+img,
+article,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+section {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #E7E7E7;
+}
+[v-cloak] {
+  display: none;
+}
+.gioneeBox nav {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.1);
+}
+.gioneeBox nav li {
+  list-style: none;
+  width: 54px;
+  line-height: 24px;
+  font-family: PingFangSC-Regular;
+  font-size: 17px;
+  color: #333333;
+  text-align: center;
+}
+.gioneeBox .slides,
+.gioneeBox .doc {
+  margin-top: 40px;
+}
+.gioneeBox .slides .container,
+.gioneeBox .doc .container {
+  background: #fff;
+  padding: 21px 3.5% 0;
+}
+.gioneeBox .slides .container .title,
+.gioneeBox .doc .container .title {
+  padding-bottom: 10px;
+  font-family: PingFangSC-Medium;
+  font-size: 24px;
+  color: #1A1A1A;
+  letter-spacing: 0;
+  line-height: 32px;
+}
+.gioneeBox .slides .container .userSource,
+.gioneeBox .doc .container .userSource {
+  display: flex;
+  align-items: center;
+}
+.gioneeBox .slides .container .userSource .userlogo,
+.gioneeBox .doc .container .userSource .userlogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #E7E7E7;
+  overflow: hidden;
+}
+.gioneeBox .slides .container .userSource .userlogo span,
+.gioneeBox .doc .container .userSource .userlogo span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+.gioneeBox .slides .container .userSource .userlogo img,
+.gioneeBox .doc .container .userSource .userlogo img {
+  width: 30px;
+  height: 30px;
+}
+.gioneeBox .slides .container .userSource .username,
+.gioneeBox .doc .container .userSource .username {
+  margin-left: 10px;
+}
+.gioneeBox .slides .container .userSource .username .source,
+.gioneeBox .doc .container .userSource .username .source {
+  font-family: PingFangSC-Regular;
+  font-size: 18px;
+  color: #999999;
+  letter-spacing: 0;
+  line-height: 30px;
+}
+.gioneeBox .slides .container .userSource .username .updatetime,
+.gioneeBox .doc .container .userSource .username .updatetime {
+  font-family: PingFangSC-Regular;
+  font-size: 10px;
+  color: #999999;
+  letter-spacing: 0;
+  line-height: 15px;
+}
+.gioneeBox .slides .container .content,
+.gioneeBox .doc .container .content {
+  position: relative;
+}
+.gioneeBox .slides .container .content .show-more,
+.gioneeBox .doc .container .content .show-more {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.gioneeBox .slides .container .content .show-more .showbar,
+.gioneeBox .doc .container .content .show-more .showbar {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.gioneeBox .slides .container .content .show-more .showbar .showbar-shadow,
+.gioneeBox .doc .container .content .show-more .showbar .showbar-shadow {
+  width: 100%;
+}
+.gioneeBox .slides .container .content .show-more .showbar .showbarNew,
+.gioneeBox .doc .container .content .show-more .showbar .showbarNew {
+  position: absolute;
+  bottom: 75px;
+  z-index: 10;
+  width: 18px;
+  height: 20px;
+  -webkit-animation: start 1s infinite;
+  -o-animation: start 1s infinite;
+  animation: start 1s infinite;
+}
+.gioneeBox .slides .container .content .show-more span,
+.gioneeBox .doc .container .content .show-more span {
+  display: inline-block;
+  width: 100%;
+  height: 44px;
+  font-family: PingFangSC-Medium;
+  font-size: 16px;
+  color: #FFFFFF;
+  letter-spacing: -0.46px;
+  text-align: center;
+  line-height: 44px;
+  background: #F54343;
+  border: none;
+  border-radius: 3px;
+}
+.gioneeBox .slides .container .content .content-img,
+.gioneeBox .doc .container .content .content-img {
+  width: 100%;
+  margin: 24px 0 10px;
+}
+.gioneeBox .slides .container .content .description,
+.gioneeBox .doc .container .content .description {
+  display: flex;
+}
+.gioneeBox .slides .container .content .description .idx,
+.gioneeBox .doc .container .content .description .idx {
+  width: 64px;
+  font-family: PingFangSC-Regular;
+  letter-spacing: 0;
+  text-align: center;
+}
+.gioneeBox .slides .container .content .description .idx span:nth-of-type(1),
+.gioneeBox .doc .container .content .description .idx span:nth-of-type(1) {
+  font-size: 25px;
+  color: #1A1A1A;
+}
+.gioneeBox .slides .container .content .description .idx span:nth-of-type(2),
+.gioneeBox .doc .container .content .description .idx span:nth-of-type(2) {
+  font-size: 16px;
+  color: #999999;
+}
+.gioneeBox .slides .container .content .description .content-description,
+.gioneeBox .doc .container .content .description .content-description {
+  flex: 1;
+  margin-left: 6px;
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  color: #1A1A1A;
+  letter-spacing: 0;
+  line-height: 29px;
+}
+.gioneeBox .slides .AD,
+.gioneeBox .doc .AD {
+  padding: 20px 0;
+  width: 100%;
+  background: #fff;
+}
+.gioneeBox .slides .AD .advert,
+.gioneeBox .doc .AD .advert {
+  position: relative;
+  margin: 0 auto;
+  width: 330px;
+  height: 86px;
+  background: #E3E3E3;
+}
+.gioneeBox .slides .AD .advert span,
+.gioneeBox .doc .AD .advert span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 26px;
+  height: 14px;
+  background-color: rgba(0, 0, 0, 0.5);
+  line-height: 14px;
+  font-family: PingFangSC-Regular;
+  font-size: 10px;
+  text-align: center;
+  color: #FFFFFF;
+  letter-spacing: 0;
+}
+.gioneeBox .slides .recommend,
+.gioneeBox .doc .recommend {
+  margin-top: 10px;
+  padding-top: 14px;
+  background: #fff;
+}
+.gioneeBox .slides .recommend .recommend-bar,
+.gioneeBox .doc .recommend .recommend-bar {
+  padding-left: 2.4%;
+  border-left: 5px solid #F54343;
+  font-family: PingFangSC-Regular;
+  font-size: 15px;
+  color: #999999;
+}
+.gioneeBox .slides .recommend section,
+.gioneeBox .doc .recommend section {
+  margin: 0 3.5%;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f2f2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.gioneeBox .slides .recommend section .recommend-img,
+.gioneeBox .doc .recommend section .recommend-img {
+  width: 32.9%;
+  height: 76px;
+  margin-left: 6.9%;
+}
+.gioneeBox .slides .recommend section .recommend-con,
+.gioneeBox .doc .recommend section .recommend-con {
+  flex: 1;
+  width: 100%;
+}
+.gioneeBox .slides .recommend section .recommend-con p,
+.gioneeBox .doc .recommend section .recommend-con p {
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-align: justify;
+  font-family: PingFangSC-Regular;
+  font-size: 18px;
+  color: #1A1A1A;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-bottom: 8px;
+}
+.gioneeBox .slides .recommend section .recommend-con .recommend-source,
+.gioneeBox .doc .recommend section .recommend-con .recommend-source {
+  margin-right: 2.7%;
+  margin-top: 8px;
+  font-family: PingFangSC-Regular;
+  font-size: 11px;
+  color: #999999;
+  line-height: 20px;
+}
+.gioneeBox .slides .recommend .recommend-ad .slides-ad,
+.gioneeBox .doc .recommend .recommend-ad .slides-ad,
+.gioneeBox .slides .recommend .recommend-ad .big-ad,
+.gioneeBox .doc .recommend .recommend-ad .big-ad {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.gioneeBox .slides .recommend .recommend-ad .slides-ad .ad-imgs,
+.gioneeBox .doc .recommend .recommend-ad .slides-ad .ad-imgs,
+.gioneeBox .slides .recommend .recommend-ad .big-ad .ad-imgs,
+.gioneeBox .doc .recommend .recommend-ad .big-ad .ad-imgs {
+  display: flex;
+  justify-content: space-between;
+}
+.gioneeBox .slides .recommend .recommend-ad .slides-ad .ad-imgs .ad-img,
+.gioneeBox .doc .recommend .recommend-ad .slides-ad .ad-imgs .ad-img,
+.gioneeBox .slides .recommend .recommend-ad .big-ad .ad-imgs .ad-img,
+.gioneeBox .doc .recommend .recommend-ad .big-ad .ad-imgs .ad-img {
+  margin-top: 8px;
+  margin-left: 0;
+  width: 32.9%;
+  height: 76px;
+}
+.gioneeBox .slides .recommend .recommend-ad .slides-ad .ad-imgs .ad-img:nth-last-of-type(2),
+.gioneeBox .doc .recommend .recommend-ad .slides-ad .ad-imgs .ad-img:nth-last-of-type(2),
+.gioneeBox .slides .recommend .recommend-ad .big-ad .ad-imgs .ad-img:nth-last-of-type(2),
+.gioneeBox .doc .recommend .recommend-ad .big-ad .ad-imgs .ad-img:nth-last-of-type(2) {
+  margin: 8px 0.5% 0;
+}
+.gioneeBox .slides .recommend .recommend-ad .slides-ad p,
+.gioneeBox .doc .recommend .recommend-ad .slides-ad p,
+.gioneeBox .slides .recommend .recommend-ad .big-ad p,
+.gioneeBox .doc .recommend .recommend-ad .big-ad p {
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-align: justify;
+  font-family: PingFangSC-Regular;
+  font-size: 18px;
+  color: #1A1A1A;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-bottom: 8px;
+}
+.gioneeBox .slides .recommend .recommend-ad .slides-ad .recommend-source,
+.gioneeBox .doc .recommend .recommend-ad .slides-ad .recommend-source,
+.gioneeBox .slides .recommend .recommend-ad .big-ad .recommend-source,
+.gioneeBox .doc .recommend .recommend-ad .big-ad .recommend-source {
+  margin-right: 10px;
+  margin-top: 8px;
+  font-family: PingFangSC-Regular;
+  font-size: 11px;
+  color: #999999;
+  line-height: 20px;
+}
+.gioneeBox .slides .recommend .recommend-ad .big-ad img,
+.gioneeBox .doc .recommend .recommend-ad .big-ad img {
+  margin-left: 0;
+  width: 100%;
+  max-height: 187px;
+  min-height: 86px;
+}
+.gioneeBox .doc .content p {
+  font-family: PingFangSC-Regular;
+  font-size: 18px;
+  color: #1A1A1A;
+  letter-spacing: 0;
+  line-height: 29px;
+}
+.gioneeBox .doc .content img {
+  margin-top: 20px;
+  width: 100%;
+}
+.gioneeBox .doc .content small {
+  font-family: PingFangSC-Regular;
+  font-size: 13px;
+  color: #999999;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+.gioneeBox .doc .content small span {
+  display: inline-block;
+  margin: 10px 0 20px;
+}
+@keyframes start {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(14px);
+  }
+}

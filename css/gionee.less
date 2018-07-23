@@ -1,0 +1,332 @@
+html,body,div,nav,ul,li,a,p,img,article,h1,h2,h3,h4,h5,h6,section{
+  margin: 0;
+  padding: 0;
+}
+body{
+  background: #E7E7E7;
+}
+[v-cloak]{ display: none }
+.gioneeBox{
+  nav{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    box-shadow: 0px 4px 9px rgba(0, 0, 0, .1);
+    li{
+      list-style: none;
+      width: 54px;
+      line-height: 24px;
+      font-family: PingFangSC-Regular;
+      font-size: 17px;
+      color: #333333;
+      text-align: center;
+    }
+  }
+  .slides,.doc{
+    margin-top: 40px;
+    .container{
+      background: #fff;
+      padding: 21px 3.5% 0;
+      .title{
+        padding-bottom: 10px;
+        font-family: PingFangSC-Medium;
+        font-size: 24px;
+        color: #1A1A1A;
+        letter-spacing: 0;
+        line-height: 32px;
+      }
+      .userSource{
+        display: flex;
+        align-items: center;
+        .userlogo{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background-color: #E7E7E7;
+          overflow: hidden;
+          span{
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+          }
+          img{
+            width: 30px;
+            height: 30px;
+          }
+        }
+        .username{
+          margin-left: 10px;
+          .source{
+            font-family: PingFangSC-Regular;
+            font-size: 18px;
+            color: #999999;
+            letter-spacing: 0;
+            line-height: 30px;
+          }
+          .updatetime{
+            font-family: PingFangSC-Regular;
+            font-size: 10px;
+            color: #999999;
+            letter-spacing: 0;
+            line-height: 15px;
+          }
+        }
+      }
+      .content{
+        position: relative;
+        //height: 100px;
+        //overflow-y: hidden;
+        .show-more{
+          position: absolute;
+          width: 100%;
+          //height: 50px;
+          bottom: 0;
+          left: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          .showbar{
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            .showbar-shadow{
+              width: 100%;
+            }
+            .showbarNew{
+              position: absolute;
+              bottom: 75px;
+              z-index:10;
+              width: 18px;
+              height: 20px;
+              -webkit-animation: start 1s infinite;
+              -o-animation: start 1s infinite;
+              animation: start 1s infinite;
+            }
+          }
+          span{
+            display: inline-block;
+            width: 100%;
+            height: 44px;
+            font-family: PingFangSC-Medium;
+            font-size: 16px;
+            color: #FFFFFF;
+            letter-spacing: -0.46px;
+            text-align: center;
+            line-height: 44px;
+            background: #F54343;
+            border: none;
+            border-radius: 3px;
+          }
+        }
+        .content-img{
+          width: 100%;
+          margin: 24px 0 10px;
+        }
+        .description{
+          display: flex;
+          .idx{
+            width: 64px;
+            //height: 100px;
+            font-family: PingFangSC-Regular;
+            letter-spacing: 0;
+            text-align: center;
+            span:nth-of-type(1){
+              font-size: 25px;
+              color: #1A1A1A;
+            }
+            span:nth-of-type(2){
+              font-size: 16px;
+              color: #999999;
+            }
+          }
+          .content-description{
+            flex: 1;
+            margin-left: 6px;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #1A1A1A;
+            letter-spacing: 0;
+            line-height: 29px;
+          }
+        }
+      }
+    }
+    .AD{
+      padding: 20px 0;
+      width: 100%;
+      background: #fff;
+      .advert{
+        position: relative;
+        margin: 0 auto;
+        width: 330px;
+        height: 86px;
+        background: #E3E3E3;
+        span{
+          position: absolute;
+          right: 0;
+          bottom:0;
+          width: 26px;
+          height: 14px;
+          background-color: rgba(0,0,0,.5);
+          line-height: 14px;
+          font-family: PingFangSC-Regular;
+          font-size: 10px;
+          text-align: center;
+          color: #FFFFFF;
+          letter-spacing: 0;
+        }
+      }
+    }
+    .recommend{
+      margin-top: 10px;
+      padding-top: 14px;
+      background: #fff;
+      .recommend-bar{
+        padding-left: 2.4%;
+        border-left: 5px solid #F54343;
+        font-family: PingFangSC-Regular;
+        font-size: 15px;
+        color: #999999;
+      }
+      section{
+        margin: 0 3.5%;
+        padding: 10px 0;
+        border-bottom: 1px solid #f2f2f2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .recommend-img{
+          //width: 115px;
+          //height: 76px;
+          width: 32.9%;
+          height: 76px;
+          margin-left: 6.9%;
+          //margin-left: 24px;
+        }
+        .recommend-con{
+          flex: 1;
+          width: 100%;
+          p{
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp:2;
+            text-align: justify;
+            font-family: PingFangSC-Regular;
+            font-size: 18px;
+            color: #1A1A1A;
+            letter-spacing: 0;
+            line-height: 24px;
+            margin-bottom: 8px;
+          }
+          .recommend-source{
+            margin-right: 2.7%;
+            margin-top: 8px;
+            font-family: PingFangSC-Regular;
+            font-size: 11px;
+            color: #999999;
+            line-height: 20px;
+          }
+        }
+      }
+      .recommend-ad{
+        .slides-ad,.big-ad{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          .ad-imgs{
+            display: flex;
+            justify-content: space-between;
+            .ad-img{
+              margin-top: 8px;
+              margin-left: 0;
+              width: 32.9%;
+              height: 76px;
+            }
+            .ad-img:nth-last-of-type(2){
+              margin:8px 0.5% 0;
+            }
+          }
+          p{
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp:2;
+            text-align: justify;
+            font-family: PingFangSC-Regular;
+            font-size: 18px;
+            color: #1A1A1A;
+            letter-spacing: 0;
+            line-height: 24px;
+            margin-bottom: 8px;
+          }
+          .recommend-source{
+            margin-right: 10px;
+            margin-top: 8px;
+            font-family: PingFangSC-Regular;
+            font-size: 11px;
+            color: #999999;
+            line-height: 20px;
+          }
+        }
+        .big-ad{
+          img{
+            margin-left: 0;
+            width: 100%;
+            max-height: 187px;
+            min-height: 86px;
+          }
+        }
+      }
+    }
+  }
+  .doc{
+    .content{
+      p{
+        font-family: PingFangSC-Regular;
+        font-size: 18px;
+        color: #1A1A1A;
+        letter-spacing: 0;
+        line-height: 29px;
+      }
+      img{
+        margin-top: 20px;
+        width:100%;
+      }
+      small{
+        font-family: PingFangSC-Regular;
+        font-size: 13px;
+        color: #999999;
+        letter-spacing: 0;
+        line-height: 20px;
+        span{
+          display: inline-block;
+          margin: 10px 0 20px;
+        }
+      }
+    }
+
+  }
+}
+@keyframes start{
+  0%{
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(14px);
+  }
+}

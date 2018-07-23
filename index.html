@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <title>金立锁屏</title>
+    <link rel="stylesheet" href="http://p0.ifengimg.com/d27607d14a52d158/2018/13/gionee.css">
+    <script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/jquery-3.2.1.min.js"></script>
+    <script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/vue.min.js"></script>
+    <script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/online.js"></script>
+    <script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/lazy.js"></script>
+    <script src="http://p1.ifengimg.com/96e88c74a1c1f75f/2018/15/mobile_inice_v_jl3.js"></script>
+    <script type="text/javascript">
+
+        var gloableSettings = {
+
+            "ch": "",
+
+            "domain": "m.ifeng.com",
+
+            "channelPath": "/",
+
+            "pt":""
+
+        };
+
+    </script>
+    <style>
+        .noline{
+            height: 730px;
+            position: absolute;
+            background: #e7e7e7;
+            width: 100%;
+            z-index: 10;
+            display: flex;
+        }
+        .AD img{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="gioneeBox" v-cloak style="position:relative;height:730px">
+    <nav>
+        <!--<li>娱乐</li>-->
+        <!--<li>军事</li>-->
+        <!--<li>健康</li>-->
+        <!--<li>财经</li>-->
+        <!--<li>体育</li>-->
+        <!--<li>奇闻</li>-->
+        <li v-for="(item,index) in listData" @click="getNavData(index,item.url)" :data-url="item.url">${item.name}</li>
+    </nav>
+    <div class="neterror" style="background: #fff;flex-direction: column; justify-content: center;align-items: center;display: none;height: 100%;">
+        <img src="http://p0.ifengimg.com/d27607d14a52d158/2018/14/tip_no_network@2x.png" alt="" style="margin-top: -80px; width: 225px;height: 172px;">
+
+    </div>
+    <div class="dataerror" @click="dataAgain" style="background: #fff;display: none;flex-direction: column; justify-content: center;align-items: center;height: 100%;">
+        <img src="http://p0.ifengimg.com/d27607d14a52d158/2018/14/doc_underline.png" alt="" style="margin-top: -80px;width: 296px;height: 156px;">
+
+    </div>
+    <article class="doc" v-if="type == 'doc'">
+        <div class="container">
+            <h1 class="title">${title}</h1>
+            <section class="userSource">
+                <div class="userlogo">
+                    <span v-if="!userLogo">${source.substr(0,1)}</span>
+                    <img v-if="userLogo" v-lazy="userLogo" alt="">
+                </div>
+                <div class="username">
+                    <p class="source">${source}</p>
+                    <p class="updatetime">${time}</p>
+                </div>
+            </section>
+            <section class="content" ref="content" style="margin-top: 24px;">
+                <div class="content-description" v-html="text"></div>
+                <div class="show-more" @click="showMore">
+                    <div class="showbar">
+                        <img src="https://p1.ifengimg.com/a/2017/1016/showbar_shadow.png" alt="" class="showbar-shadow">
+                        <img src="https://p3.ifengimg.com/762e27246472e56c/2017/51/showbarNew.png" class="showbarNew">
+                    </div>
+                    <span>点击展开全文</span>
+                </div>
+            </section>
+        </div>
+        <div id="cl23076" class="AD" style="padding: 20px 3.5%;width: 93%;">
+            <!--<section class="advert">-->
+                <!--<span>广告</span>-->
+            <!--</section>-->
+            <script>
+                iis3_config = {
+                    "aids" : [
+                        {"ap" : "23076", "w" : "300", "h" : "250","res" : "1"}
+                    ],
+                    "mode" : "1"
+                };
+                document.write("<script src='" + IRURL + "'></" + "script>");
+            </script>
+        </div>
+        <div class="recommend">
+            <p class="recommend-bar">相关阅读</p>
+            <!--相关1-->
+            <section v-if="recommendType1.type == 'doc' || recommendType1.type == 'slide'" :data-aid="aid1" @click="goDetail(aid1)">
+                <div class="recommend-con">
+                    <p>${recommendTitle1}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource1">${recommendSource1}</span>
+                        <span class="recommend-source">${comments1}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg1" alt="" class="recommend-img">
+            </section>
+
+
+            <!--相关2-->
+            <section v-if="recommendType2.type == 'doc' || recommendType2.type == 'slide'" :data-aid="aid2" @click="goDetail(aid2)">
+                <div class="recommend-con">
+                    <p>${recommendTitle2}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource2">${recommendSource2}</span>
+                        <span class="recommend-source">${comments2}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg2" alt="" class="recommend-img">
+            </section>
+            <!--相关3-->
+            <section v-if="recommendType3.type == 'doc' || recommendType3.type == 'slide'" :data-aid="aid3" @click="goDetail(aid3)">
+                <div class="recommend-con">
+                    <p>${recommendTitle3}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource3">${recommendSource3}</span>
+                        <span class="recommend-source">${comments3}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg3" alt="" class="recommend-img">
+            </section>
+
+            <!--相关4-->
+            <section v-if="recommendType4.type == 'doc' || recommendType4.type == 'slide'" :data-aid="aid4" @click="goDetail(aid4)">
+                <div class="recommend-con">
+                    <p>${recommendTitle4}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource4">${recommendSource4}</span>
+                        <span class="recommend-source">${comments4}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg4" alt="" class="recommend-img">
+            </section>
+
+            <!--相关5-->
+            <section v-if="recommendType5.type == 'doc' || recommendType5.type == 'slide'" :data-aid="aid5" @click="goDetail(aid5)">
+                <div class="recommend-con">
+                    <p>${recommendTitle5}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource5">${recommendSource5}</span>
+                        <span class="recommend-source">${comments5}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg5" alt="" class="recommend-img">
+            </section>
+
+        </div>
+    </article>
+    <article class="slides" v-if="type == 'slides'">
+        <div class="container">
+            <h1 class="title">${title}</h1>
+            <section class="userSource">
+                <div class="userlogo">
+                    <span v-if="!userLogo">${source.substr(0,1)}</span>
+                    <img v-if="userLogo" v-lazy="userLogo" alt="">
+                </div>
+                <div class="username">
+                    <p class="source">${source}</p>
+                    <p class="updatetime">${time}</p>
+                </div>
+            </section>
+            <section class="content" ref="content">
+                <div v-for="(item,index) in slides" class="">
+                    <img v-lazy="item.image" alt="" class="content-img">
+                    <div class="description">
+                        <div class="idx">
+                            <span>${index+1}</span><span>/${slides.length}</span>
+                        </div>
+                        <p class="content-description">${item.description}</p>
+                    </div>
+                </div>
+                <div class="show-more" @click="showMore">
+                    <div class="showbar">
+                        <img src="https://p1.ifengimg.com/a/2017/1016/showbar_shadow.png" alt="" class="showbar-shadow">
+                        <img src="https://p3.ifengimg.com/762e27246472e56c/2017/51/showbarNew.png" class="showbarNew">
+                    </div>
+                    <span>点击展开全文</span>
+                </div>
+            </section>
+        </div>
+        <div class="AD" id="cl23076" style="padding: 20px 3.5%;width: 93%;">
+            <!--<section class="advert">-->
+                <!--<span>广告</span>-->
+            <!--</section>-->
+            <script>
+                iis3_config = {
+                    "aids" : [
+                        {"ap" : "23076", "w" : "300", "h" : "250","res" : "1"}
+                    ],
+                    "mode" : "1"
+                };
+                document.write("<script src='" + IRURL + "'></" + "script>");
+            </script>
+
+        </div>
+        <div class="recommend">
+            <p class="recommend-bar">相关阅读</p>
+            <!--相关1-->
+            <section v-if="recommendType1.type == 'slide' || recommendType1.type == 'doc'" :data-aid="aid1" @click="goDetail(aid1)">
+                <!--<a href="" :data-aid="">-->
+                <div class="recommend-con">
+                    <p>${recommendTitle1}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource1">${recommendSource1}</span>
+                        <span class="recommend-source">${comments1}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg1" alt="" class="recommend-img">
+                <!--</a>-->
+            </section>
+
+            <!--相关2-->
+            <section v-if="recommendType2.type == 'slide' || recommendType2.type == 'doc'" :data-aid="aid2" @click="goDetail(aid2)">
+                <div class="recommend-con">
+                    <p>${recommendTitle2}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource2">${recommendSource2}</span>
+                        <span class="recommend-source">${comments2}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg2" alt="" class="recommend-img">
+            </section>
+
+            <!--相关3-->
+            <section v-if="recommendType3.type == 'slide' || recommendType3.type == 'doc'" :data-aid="aid3" @click="goDetail(aid3)">
+                <div class="recommend-con">
+                    <p>${recommendTitle3}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource3">${recommendSource3}</span>
+                        <span class="recommend-source">${comments3}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg3" alt="" class="recommend-img">
+            </section>
+
+            <!--相关4-->
+            <section v-if="recommendType4.type == 'slide' || recommendType4.type == 'doc'" :data-aid="aid4" @click="goDetail(aid4)">
+                <div class="recommend-con">
+                    <p>${recommendTitle4}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource4">${recommendSource4}</span>
+                        <span class="recommend-source">${comments4}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg4" alt="" class="recommend-img">
+            </section>
+
+            <!--相关5-->
+            <section v-if="recommendType5.type == 'slide' || recommendType5.type == 'doc'" :data-aid="aid5" @click="goDetail(aid5)">
+                <div class="recommend-con">
+                    <p>${recommendTitle5}</p>
+                    <div>
+                        <span class="recommend-source" v-if="recommendSource5">${recommendSource5}</span>
+                        <span class="recommend-source">${comments5}评</span>
+                    </div>
+                </div>
+                <img v-lazy="recommendImg5" alt="" class="recommend-img">
+            </section>
+
+            <article class="recommend-ad">
+                <!--广告左文右图-->
+                <!-- <section>
+                     <div class="recommend-con">
+                         <p>${recommendTitle1}</p>
+                         <div>
+                             <span class="recommend-source" v-show="recommendTitle5">广告</span>
+                         </div>
+                     </div>
+                     <img v-lazy="recommendImg1" alt="" class="recommend-img">
+                 </section>  -->
+                <!--广告三小图-->
+                <!--<section class="slides-ad">-->
+                <!--<p>${recommendTitle1}</p>-->
+                <!--<div class="ad-imgs">-->
+                <!--<img :src="recommendImg1" alt="" class="ad-img">-->
+                <!--<img :src="recommendImg1" alt="" class="ad-img">-->
+                <!--<img :src="recommendImg1" alt="" class="ad-img">-->
+                <!--</div>-->
+                <!--<span class="recommend-source">广告</span>-->
+                <!--</section>-->
+                <!--广告大图-->
+                <section class="big-ad">
+                    <p>${recommendTitle1}</p>
+                    <img v-lazy="recommendImg1" alt="">
+                    <span class="recommend-source">广告</span>
+                </section>
+            </article>
+        </div>
+    </article>
+
+
+</div>
+
+<script>
+    //aid=cmpp_030240056670380  cmpp_034470054029484  cmpp_030240056782323图集 slides
+    //aid=cmpp_030120056721382  文章 doc
+    var isAid = location.href.match(/aid/);
+    var isUrl;
+    if(isAid){
+        var aid = getHashQueryString('aid');
+        isUrl = "https://api.iclient.ifeng.com/ipadtestdoc?aid=" + aid + "&gv=5.5.5&proid=ifengnewsh5&os=ios";
+    }else {
+        window.location.href = 'https://share.iclient.ifeng.com/share_doc404?from=h5meizuh5&freshurl=' + location.href;
+    }
+
+    var net = onlinenetwork({
+        "time":1000
+        //        "url":"http://*******.com/ping.php"
+    });
+    net.onLineHandler(function(){
+        console.log("连上了！");
+        //        $('.mescroll').show();
+        $('.neterror').hide();
+        $('article').show();
+        mobile_ap_functions.visElementArticleJL();
+    });
+    net.offLineHandler(function(){
+        console.log("断开网络！");
+        //        $('.mescroll').hide();
+//            alert('网络异常请检查网络')
+    });
+
+    function getHashQueryString(key) { //获取URL参数
+        var hash = location.search;
+        var reg = new RegExp('[\?\&]' + key + '=([^\&]+)', 'i');
+        var result = hash.match(reg);
+        if (result == null || result.length < 1) {
+            return '';
+        }
+        return result[1];
+    }
+
+    var cookieFunc=(function(){
+        var getCookie = function(c_uid){
+                if (document.cookie.length>0)
+                {
+                    c_start=document.cookie.indexOf(c_uid + "=")
+                    if (c_start!=-1)
+                    {
+                        c_start=c_start + c_uid.length+1
+                        c_end=document.cookie.indexOf(";",c_start)
+                        if (c_end==-1) c_end=document.cookie.length
+                        return unescape(document.cookie.substring(c_start,c_end))
+                    }
+                }
+                return ""
+            },
+            setCookie = function(c_uid,value,expiredays){
+                var exdate=new Date()
+                exdate.setDate(exdate.getDate()+expiredays)
+                document.cookie=c_uid+ "=" +escape(value)+ ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+            },
+            randomString = function(len){
+                len = len || 32;
+                var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+                var maxPos = $chars.length;
+                var uid = '';
+                for (var i = 0; i < len; i++) {
+                    uid += $chars.charAt(Math.floor(Math.random() * maxPos));
+                }
+                return uid;
+            },
+            checkCookie = function(){
+                var useruid=getCookie('useruid')
+                if (useruid!=null && useruid!="")
+                {console.log(useruid)}
+                else
+                {
+                    useruid=randomString(32);
+                    {console.log('qi',useruid)}
+
+                    if (useruid!=null && useruid!="")
+                    {
+                        setCookie('useruid',useruid,365)
+                    }
+                }
+                return useruid;//返回生成的uid
+            },
+            getUserid= function(){
+                var useruid=getCookie('userid')
+                return useruid
+            },
+            getSid = function(){
+                var sid = getCookie('sid')
+                return sid;
+            },
+            getTanzhen = function(value){
+                var tanzhen = "http://stadig.ifeng.com/actsta.js?datatype=wap_act&value="+value+"&uri="+encodeURIComponent(window.location.href)+"&ref="+encodeURIComponent(window.location.href)+"&uid="+encodeURIComponent(getUserid())+"&sid="+encodeURIComponent(getSid())+"&time="+encodeURIComponent(new Date().valueOf())+"&ci="+encodeURIComponent(gloableSettings.channelPath);
+                return tanzhen
+                //console.log(getUserid())
+            };
+        return {
+            checkCookie:checkCookie,
+            getTanzhen:getTanzhen
+        }
+    })();
+
+
+    function randomString(len){
+        len = len || 32;
+        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+        var maxPos = $chars.length;
+        var uid = '';
+        for (var i = 0; i < len; i++) {
+            uid += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return uid;
+    }
+
+    var uid = randomString();
+
+    Vue.use(VueLazyload,{
+        loading:"http://p0.ifengimg.com/29b92e35b2b20708/2017/50/e3e3e3.png"
+    });
+    var vm = new Vue({
+        el : ".gioneeBox",
+        delimiters: ['${','}'],
+        data: {
+            data: [],
+            title: '',
+            source: '',
+            userLogo: '',
+            time: '', //发布时间
+            type: '',
+            slides : {},//type为slides时的数据
+            text : '',
+            recommendType1: {}, //slides相关类型
+            recommendType2: {},
+            recommendType3: {},
+            recommendType4: {},
+            recommendType5: {},
+            recommendImg1: '', //相关图片
+            recommendImg2: '',
+            recommendImg3: '',
+            recommendImg4: '',
+            recommendImg5: '',
+            recommendTitle1: '',//相关标题
+            recommendTitle2: '',
+            recommendTitle3: '',
+            recommendTitle4: '',
+            recommendTitle5: '',
+            comments1: '', //相关评论
+            comments2: '',
+            comments3: '',
+            comments4: '',
+            comments5: '',
+            recommendSource1: '', //相关来源
+            recommendSource2: '',
+            recommendSource3: '',
+            recommendSource4: '',
+            recommendSource5: '',
+            aid1: '',  //相关链接
+            aid2: '',
+            aid3: '',
+            aid4: '',
+            aid5: '',
+            listData:[
+                {name:'娱乐',push:'yl',url:'https://api.iclient.ifeng.com/ClientNews?id=YL53,FOCUSYL53&gv=5.7.4&av=0&proid=ifengnews&os=ios_11.1&vt=5&screen=1125x2001&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'军事',push:'js',url:'http://api.iclient.ifeng.com/ClientNews?id=JS83,FOCUSJS83&gv=5.7.5&av=0&os=ios_11.1.1&vt=5&screen=750x1334&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'健康',push:'jk',url:'http://api.iclient.ifeng.com/ClientNews?id=JK36&gv=5.7.4&av=0&os=ios_11.1&vt=5&screen=1125x2001&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'财经',push:'cj',url:'http://api.iclient.ifeng.com/ClientNews?id=CJ33,FOCUSCJ33,HNCJ33&gv=5.7.4&av=0&os=ios_11.0&vt=5&screen=1242x2208&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'体育',push:'ty',url:'http://api.iclient.ifeng.com/ClientNews?id=TY43,FOCUSTY43,TYTOPIC&gv=5.7.4&av=0&os=ios_11.1&vt=5&screen=1125x2001&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'科技',push:'kj',url:'http://api.iclient.ifeng.com/ClientNews?id=KJ123,FOCUSKJ123&os=ios_11.1&vt=5&screen=1125x2001&proid=ifengkuzhan&isnoad=1&uid='}
+            ],
+            dataerror : false //数据异常
+        },
+        mounted:function () {
+            this.getData();
+//            this.recommendfn();
+//          var a = document.documentElement.clientHeight;
+//          var b = document.body.clientHeight;
+//          console.log(a);
+        },
+        updated:function () {
+            var h = $('.content').height();
+            this.moreHide();
+        },
+        methods:{
+            getNavData:function (index,url) {
+                $.ajax({
+                    dataType: 'jsonp',
+                    url: url + uid +'&action=default',
+                    success:function (res) {
+                        console.log(res);
+                        if(res.length == 0 || res == null){
+                            alert('数据异常，换个频道试试~');
+
+                        }else{
+                            this.list = res[0].item;
+                            window.location.href = 'http://m.ifeng.com/jinlitest?ch=ref_jlsp_dl1&detailind=' + index;
+                        }
+                    }.bind(this),
+                    error:function (res) {
+                        alert(res.status + "请检查网络是否连接并重试");
+                    }
+                })
+            },
+            getData:function () {
+                $.ajax({
+                    dataType: 'jsonp',
+                    url: isUrl,
+                    success:function (res) {
+//                        console.log(res.body.recommend);
+                        if(res.length == 0 || res == null){
+                            //alert('页面加载异常，换个频道试试');
+                            $('.dataerror').show().css('display','flex');
+                        }else{
+                            $('.dataerror').hide().removeClass('noline');
+                            var that = this;
+                            if(res.meta.type == 'slides'){
+                                for(var i = 0;i<=res.body.recommend.length;i++){
+                                    that.recommendType1 = res.body.recommend[0];
+                                    that.recommendType2 = res.body.recommend[1];
+                                    that.recommendType3 = res.body.recommend[2];
+                                    that.recommendType4 = res.body.recommend[3];
+                                    that.recommendType5 = res.body.recommend[4];
+                                    that.recommendImg1 = res.body.recommend[0].thumbnail;
+                                    that.recommendTitle1 = res.body.recommend[0].title;
+                                    that.comments1 = res.body.recommend[0].commentsall;
+                                    that.recommendSource1 =res.body.recommend[0].source;
+                                    that.aid1 = res.body.recommend[0].staticId;
+
+                                    that.recommendImg2 = res.body.recommend[1].thumbnail;
+                                    that.recommendTitle2 = res.body.recommend[1].title;
+                                    that.comments2 = res.body.recommend[1].commentsall;
+                                    that.recommendSource2 =res.body.recommend[1].source;
+                                    that.aid2 = res.body.recommend[1].staticId;
+//
+                                    that.recommendImg3 = res.body.recommend[2].thumbnail;
+                                    that.recommendTitle3 = res.body.recommend[2].title;
+                                    that.comments3 = res.body.recommend[2].commentsall;
+                                    that.recommendSource3 =res.body.recommend[2].source;
+                                    that.aid3 = res.body.recommend[2].staticId;
+
+                                    that.recommendImg4 = res.body.recommend[3].thumbnail;
+                                    that.recommendTitle4 = res.body.recommend[3].title;
+                                    that.comments4 = res.body.recommend[3].commentsall;
+                                    that.recommendSource4 =res.body.recommend[3].source;
+                                    that.aid4 = res.body.recommend[4].staticId;
+
+                                    that.recommendImg5 = res.body.recommend[4].thumbnail;
+                                    that.recommendTitle5 = res.body.recommend[4].title;
+                                    that.comments5 = res.body.recommend[4].commentsall;
+                                    that.recommendSource5 =res.body.recommend[4].source;
+                                    that.aid5 = res.body.recommend[4].staticId;
+                                }
+                                this.data = res;
+                                this.type = res.meta.type;
+                                this.title = res.body.title;
+                                this.source = res.body.subscribe.catename;
+                                this.userLogo = res.body.subscribe.logo;
+                                this.time = res.body.updateTime;
+                                this.slides = res.body.slides;
+//                            this.recommendType = res.body.recommend;
+                            }
+                            else if( res.meta.type == 'doc'){
+                                for(var i = 0;i<=res.body.relateDocs.length;i++){
+                                    that.recommendType1 = res.body.relateDocs[0];
+                                    that.recommendType2 = res.body.relateDocs[1];
+                                    that.recommendType3 = res.body.relateDocs[2];
+                                    that.recommendType4 = res.body.relateDocs[3];
+                                    that.recommendType5 = res.body.relateDocs[4];
+
+                                    that.recommendImg1 = res.body.relateDocs[0].thumbnail;
+                                    that.recommendTitle1 = res.body.relateDocs[0].title;
+                                    that.comments1 = res.body.relateDocs[0].commentsall;
+                                    that.recommendSource1 =res.body.relateDocs[0].source;
+                                    that.aid1 = res.body.relateDocs[0].staticId;
+
+                                    that.recommendImg2 = res.body.relateDocs[1].thumbnail;
+                                    that.recommendTitle2 = res.body.relateDocs[1].title;
+                                    that.comments2 = res.body.relateDocs[1].commentsall;
+                                    that.recommendSource2 =res.body.relateDocs[1].source;
+                                    that.aid2 = res.body.relateDocs[1].staticId;
+//
+                                    that.recommendImg3 = res.body.relateDocs[2].thumbnail;
+                                    that.recommendTitle3 = res.body.relateDocs[2].title;
+                                    that.comments3 = res.body.relateDocs[2].commentsall;
+                                    that.recommendSource3 =res.body.relateDocs[2].source;
+                                    that.aid3 = res.body.relateDocs[2].staticId;
+
+                                    that.recommendImg4 = res.body.relateDocs[3].thumbnail;
+                                    that.recommendTitle4 = res.body.relateDocs[3].title;
+                                    that.comments4 = res.body.relateDocs[3].commentsall;
+                                    that.recommendSource4 =res.body.relateDocs[3].source;
+                                    that.aid4 = res.body.relateDocs[4].staticId;
+
+                                    that.recommendImg5 = res.body.relateDocs[4].thumbnail;
+                                    that.recommendTitle5 = res.body.relateDocs[4].title;
+                                    that.comments5 = res.body.relateDocs[4].commentsall;
+                                    that.recommendSource5 =res.body.relateDocs[4].source;
+                                    that.aid5 = res.body.relateDocs[4].staticId;
+                                }
+                                var textData = res.body.text.match(/IFENG\_DOC\_VIDEO/);
+//                            if(textData){
+//                                window.location.href = 'https://share.iclient.ifeng.com/share_doc404?from=h5meizuh5&freshurl=' + location.href;
+//                            }
+                                this.data = res;
+                                this.type = res.meta.type;
+                                this.title = res.body.title;
+                                this.source = res.body.subscribe.catename;
+                                this.userLogo = res.body.subscribe.logo;
+                                this.time = res.body.updateTime;
+                                this.text = res.body.text;
+                            }
+                        }
+                    }.bind(this),
+                    error:function () {
+                        alert('数据异常，请重试');
+                        $('.dataerror').show().addClass('noline');
+                    }
+                })
+            },
+            moreHide:function () { //查看原文
+                var wordsHeight = $('.content').height(),
+                    showHeight = $(window).height()*1.9;
+//                    maxHeight = $(window).height()*3;
+                console.log(wordsHeight);
+                console.log(showHeight);
+                if(wordsHeight > showHeight){
+                    $('.content').css({'height':showHeight,'overflow':'hidden'});
+                    $('.show-more').show();
+                }else{
+                    $('.content').css({'height':'','overflow':''});
+                    $('.show-more').hide();
+                }
+            },
+            showMore:function () {
+                $('.show-more').hide().parent().css({'height':'','overflow':''});
+            },
+            goDetail:function (newaid) {
+                if(window.navigator.onLine==false){
+                    $('article').hide();
+                    this.onlineFn();
+                }else{
+                    $('article').show();
+                    window.location.href = 'http://m.ifeng.com/gioneedetail?ch=ref_jlsp_dl1&aid=' + newaid;
+                }
+            },
+            onlineFn:function () {
+                $('.neterror').show().addClass('noline');
+            },
+            dataAgain:function () {
+                location.reload();
+            }
+        }
+    })
+</script>
+<script src="https://p1.ifengimg.com/a/2016/0809/sta_collection_common_iifeng_v4.js"></script>
+
+<script src="https://p3.ifengimg.com/a/2017/0329/sta_collection_iifeng_pv_v8.js"></script>
+</body>
+</html>​

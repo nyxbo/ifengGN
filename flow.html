@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <title>金立锁屏</title>
+    <link rel="stylesheet" href="http://p0.ifengimg.com/d27607d14a52d158/2018/13/gionee.css">
+    <link rel="stylesheet" href="http://p0.ifengimg.com/d27607d14a52d158/2018/13/gioneeflow.css">
+    <link rel="stylesheet" href="http://p0.ifengimg.com/d27607d14a52d158/2018/13/mescroll.min.css">
+    <style>
+        .downwarp-tip,.downwarp-progress{
+            margin-top: 30px;
+        }
+        .isRed{
+            color: #F54343;
+        }
+    </style>
+    <script type="text/javascript">
+
+        var gloableSettings = {
+
+            "ch": "",
+
+            "domain": "m.ifeng.com",
+
+            "channelPath": "/",
+
+            "pt":""
+
+        };
+
+    </script>
+</head>
+<body style='background:#fff'>
+<div class="gioneeBox"  v-cloak style="height: 100%;overflow-y: auto">
+    <div class="dataerror" @click="dataAgain" style="display: flex;flex-direction: column; justify-content: center;align-items: center;height: 100%; background: #fff;" v-if="dataerror">
+        <img src="http://p0.ifengimg.com/d27607d14a52d158/2018/14/netErrorBackGroundImage.png" alt="" style="margin-top: -80px;width: 225px;height: 147px;">
+    </div>
+    <div class="neterror" @click="dataAgain" style="display: flex;flex-direction: column; justify-content: center;align-items: center;height: 100%;display: none;background: #fff;">
+        <img src="http://p0.ifengimg.com/d27607d14a52d158/2018/14/tip_no_network@2x.png" alt="" style="margin-top: -80px;width: 225px;height: 172px;">
+    </div>
+    <nav>
+        <!--<li>娱乐</li>-->
+        <!--<li>军事</li>-->
+        <!--<li>健康</li>-->
+        <!--<li>财经</li>-->
+        <!--<li>体育</li>-->
+        <!--<li>奇闻</li>-->
+        <li v-for="(item,index) in listData" @click="getNavData(index,item.url)" :data-url="item.url" :data-i="index">${item.name}</li>
+    </nav>
+    <div id="mescroll" class="mescroll" v-if="!dataerror">
+        <article class="list">
+            <div v-for="(item,index) in list" class="recommend">
+                <!--三小图-->
+                <section v-if="item.type == 'slide' && item.style.view == 'slideimg'" class="slides-ad" @click="goDetail(item.documentId)">
+                    <!--<a href="" :data-aid="">-->
+                    <div class="recommend-con">
+                        <p>${item.title}</p>
+                        <div class="ad-imgs">
+                            <img  v-lazy="item.style.images[0]" alt="" class="ad-img lazy-img" style="width: 32.9%;height: 76px;">
+                            <img  v-lazy="item.style.images[1]" alt="" class="ad-img lazy-img" style="width: 32.9%;height: 76px;">
+                            <img  v-lazy="item.style.images[2]" alt="" class="ad-img lazy-img" style="width: 32.9%;height: 76px;">
+                        </div>
+                        <div>
+                            <span class="recommend-source" v-if="item.source">${item.source}</span>
+                            <span class="recommend-source">${item.commentsall}评</span>
+                        </div>
+                    </div>
+                    <!--</a>-->
+                </section>
+                <!--大图-->
+                <section v-if="item.type == 'slide' && item.style.view == 'bigimg'" class="slides-ad" @click="goDetail(item.documentId)">
+                    <!--<a href="" :data-aid="">-->
+                    <div class="recommend-con">
+                        <p>${item.title}</p>
+                        <img v-lazy="item.thumbnail" alt="" style="width: 100%;max-height: 187px;" class=" lazy-img">
+                        <div>
+                            <span class="recommend-source" v-if="item.source">${item.source}</span>
+                            <span class="recommend-source">${item.commentsall}评</span>
+                        </div>
+                    </div>
+                    <!--</a>-->
+                </section>
+                <!--有图文章-->
+                <section v-if="item.type == 'doc' && item.style.view == 'titleimg'" @click="goDetail(item.documentId)">
+                    <!--<a href="" :data-aid="">-->
+                    <div class="recommend-con">
+                        <p>${item.title}</p>
+                        <div>
+                            <span class="recommend-source" v-if="item.source">${item.source}</span>
+                            <span class="recommend-source">${item.commentsall}评</span>
+                        </div>
+                    </div>
+                    <img  v-lazy="item.thumbnail" alt="" class="recommend-img lazy-img" style="width: 32.9%;height: 76px;margin-left: 6.9%;">
+                    <!--</a>-->
+                </section>
+                <section v-if="item.type == 'doc' && item.style.view == 'slideimg'" @click="goDetail(item.documentId)">
+                    <!--<a href="" :data-aid="">-->
+                    <div class="recommend-con">
+                        <p>${item.title}</p>
+                        <div>
+                            <span class="recommend-source" v-if="item.source">${item.source}</span>
+                            <span class="recommend-source">${item.commentsall}评</span>
+                        </div>
+                    </div>
+                    <img  v-lazy="item.thumbnail" alt="" class="recommend-img  lazy-img" style="width: 32.9%;height: 76px;margin-left: 6.9%;">
+                    <!--</a>-->
+                </section>
+                <!--无图文章-->
+                <section v-if="item.type == 'doc' && item.style.view == 'singletitle'" class="slides-ad" @click="goDetail(item.documentId)">
+                    <!--<a href="" :data-aid="">-->
+                    <div class="recommend-con">
+                        <p>${item.title}</p>
+                        <div>
+                            <span class="recommend-source" v-if="item.source">${item.source}</span>
+                            <span class="recommend-source">${item.commentsall}评</span>
+                        </div>
+                    </div>
+                    <!--</a>-->
+                </section>
+                <!--<section v-if="(index+1) % 3 == 0">-->
+                    <!--<div class="recommend-con" style="background: red;">-->
+                        <!--<p>我是广告</p>-->
+                        <!--<div>-->
+                            <!--<span class="recommend-source">广告</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<img  alt="" class="recommend-img" style="background: #3b94ff;" >-->
+                <!--</section>-->
+            </div>
+
+        </article>
+    </div>
+</div>
+<script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/jquery-3.2.1.min.js"></script>
+<script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/vue.min.js"></script>
+<!--<script src="js/dropload.min.js"></script>-->
+<!--<script src="js/mescroll.min.js"></script>-->
+<script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/mescroll.m.js"></script>
+<script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/online.js"></script>
+<script src="http://p0.ifengimg.com/d27607d14a52d158/2018/13/lazy.js"></script>
+<script src="http://p1.ifengimg.com/96e88c74a1c1f75f/2018/15/mobile_inice_v_jl3.js"></script>
+<script>
+    //    window.addEventListener("offline", function(e) {
+    //        alert("offline");
+    //    });
+    //
+    //    window.addEventListener("online", function(e) {
+    //        alert("online");
+    //    });
+    var net = onlinenetwork({
+        "time":1000
+//        "url":"http://*******.com/ping.php"
+    });
+    net.onLineHandler(function(){
+        console.log("连上了！");
+        $('.mescroll').show();
+        $('.neterror').hide();
+        mobile_ap_functions.loadTemp();
+    });
+    net.offLineHandler(function(){
+        console.log("断开网络！");
+        $('.mescroll').hide();
+        $('.neterror').show().css('display','flex');
+    });
+
+
+    function getHashQueryString(key) { //获取URL参数
+        var hash = location.search;
+        var reg = new RegExp('[\?\&]' + key + '=([^\&]+)', 'i');
+        var result = hash.match(reg);
+        if (result == null || result.length < 1) {
+            return '';
+        }
+        return result[1];
+    }
+    function isContained(a, b){  //判断是否有更多数据
+        for(var i = 0, len = a.length; i < len; i++){
+            if(a[i] == b){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+    var cookieFunc=(function(){
+        var getCookie = function(c_uid){
+                if (document.cookie.length>0)
+                {
+                    c_start=document.cookie.indexOf(c_uid + "=")
+                    if (c_start!=-1)
+                    {
+                        c_start=c_start + c_uid.length+1
+                        c_end=document.cookie.indexOf(";",c_start)
+                        if (c_end==-1) c_end=document.cookie.length
+                        return unescape(document.cookie.substring(c_start,c_end))
+                    }
+                }
+                return ""
+            },
+            setCookie = function(c_uid,value,expiredays){
+                var exdate=new Date()
+                exdate.setDate(exdate.getDate()+expiredays)
+                document.cookie=c_uid+ "=" +escape(value)+ ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+            },
+            randomString = function(len){
+                len = len || 32;
+                var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+                var maxPos = $chars.length;
+                var uid = '';
+                for (var i = 0; i < len; i++) {
+                    uid += $chars.charAt(Math.floor(Math.random() * maxPos));
+                }
+                return uid;
+            },
+            checkCookie = function(){
+                var useruid=getCookie('useruid');
+                if (useruid!=null && useruid!=""){}
+                else
+                {
+                    useruid=randomString(32);
+
+                    if (useruid!=null && useruid!="")
+                    {
+                        setCookie('useruid',useruid,365)
+                    }
+                }
+                return useruid;//返回生成的uid
+            },
+            getUserid= function(){
+                var userid=checkCookie();
+                return userid
+            },
+            getSid = function(){
+                var sid = getCookie('sid')
+                return sid;
+            },
+            getTanzhen = function(value){
+                var tanzhen = "http://stadig.ifeng.com/actsta.js?datatype=wap_act&value="+value+"&uri="+encodeURIComponent(window.location.href)+"&ref="+encodeURIComponent(window.location.href)+"&uid="+encodeURIComponent(getUserid())+"&sid="+encodeURIComponent(getSid())+"&time="+encodeURIComponent(new Date().valueOf())+"&ci="+encodeURIComponent(gloableSettings.channelPath);
+                return tanzhen
+                //console.log(getUserid())
+            };
+        return {
+            checkCookie:checkCookie,
+            getTanzhen:getTanzhen,
+            getUserid:getUserid
+
+        }
+    })();
+
+
+    //    module.exports = cookieFunc
+
+
+    function randomString(len){
+        len = len || 32;
+        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+        var maxPos = $chars.length;
+        var uid = '';
+        for (var i = 0; i < len; i++) {
+            uid += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return uid;
+    }
+
+    var uid = randomString();
+
+
+    Vue.use(VueLazyload,{
+        loading:"http://p0.ifengimg.com/29b92e35b2b20708/2017/50/e3e3e3.png"
+    });
+
+    var gn = new Vue({
+        el: '.gioneeBox',
+        delimiters: ['${','}'],
+        data:{
+            listData:[
+                {name:'娱乐',push:'yl',url:'https://api.iclient.ifeng.com/ClientNews?id=YL53,FOCUSYL53&gv=5.7.4&av=0&proid=ifengnews&os=ios_11.1&vt=5&screen=1125x2001&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'军事',push:'js',url:'https://api.iclient.ifeng.com/ClientNews?id=JS83,FOCUSJS83&gv=5.7.5&av=0&os=ios_11.1.1&vt=5&screen=750x1334&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'健康',push:'jk',url:'http://api.iclient.ifeng.com/ClientNews?id=JK36&gv=5.7.4&av=0&os=ios_11.1&vt=5&screen=1125x2001&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'财经',push:'cj',url:'http://api.iclient.ifeng.com/ClientNews?id=CJ33,FOCUSCJ33,HNCJ33&gv=5.7.4&av=0&os=ios_11.0&vt=5&screen=1242x2208&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'体育',push:'ty',url:'http://api.iclient.ifeng.com/ClientNews?id=TY43,FOCUSTY43,TYTOPIC&gv=5.7.4&av=0&os=ios_11.1&vt=5&screen=1125x2001&proid=ifengkuzhan&isnoad=1&uid='},
+                {name:'科技',push:'kj',url:'http://api.iclient.ifeng.com/ClientNews?id=KJ123,FOCUSKJ123&os=ios_11.1&vt=5&screen=1125x2001&proid=ifengkuzhan&isnoad=1&uid='}
+            ],
+            list:[],
+            scrolltop:document.body.scrollTop || document.documentElement.scrollTop,
+            page: 0,//默认页
+            dataerror : false, //数据异常
+            isLock : false
+        },
+        mounted:function () {
+
+            var detailInd = getHashQueryString('detailind');
+            this.getData(detailInd);
+            //创建MeScroll对象,down可以不用配置,因为内部已默认开启下拉刷新,重置列表数据为第一页
+            //解析: 下拉回调默认调用mescroll.resetUpScroll(); 而resetUpScroll会将page.num=1,再执行up.callback,从而实现刷新列表数据为第一页;
+            var self = this;
+            self.mescroll = new MeScroll("mescroll", { //请至少在vue的mounted生命周期初始化mescroll,以确保您配置的id能够被找到
+                up: { //上拉加载
+                    offset: 50,
+                    callback: self.upCallback, //上拉回调
+                    auto: false,
+                    onScroll: function(mescroll, y, isUp){ //列表滑动监听,默认onScroll: null;
+                        //y为列表当前滚动条的位置
+                        mobile_ap_functions._showLoadEL();
+                    }
+
+                    //以下参数可删除,不配置
+//                    isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+//                    //page:{size:8}, //可配置每页8条数据,默认10
+//                    toTop:{ //配置回到顶部按钮
+//                        src : "../res/img/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+//                        //html: null, //html标签内容,默认null; 如果同时设置了src,则优先取src
+//                        //offset : 1000
+//                    },
+//                    empty:{ //配置列表无任何数据的提示
+//                        warpId:"dataList",
+//                        icon : "../res/img/mescroll-empty.png" ,
+////                tip : "亲,暂无相关数据哦~" ,
+////                btntext : "去逛逛 >" ,
+////                btnClick : function() {
+////                  alert("点击了去逛逛按钮");
+////                }
+//                    }
+                    //vue的案例请勿配置clearId和clearEmptyId,否则列表的数据模板会被清空
+                    //vue的案例请勿配置clearId和clearEmptyId,否则列表的数据模板会被清空
+//            clearId: "dataList",
+//            clearEmptyId: "dataList"
+                },
+                down: { //下拉刷新
+                    callback: self.downCallback,
+                    auto: false
+//                    offset: 40
+                }
+            });
+            var detailInd = getHashQueryString('detailind');
+            $('.gioneeBox nav li').eq(detailInd).css('color','#F54343');
+        },
+        methods:{
+            //上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
+            upCallback: function(page) {
+                //联网加载数据
+                var self = this;
+                var detailInd = getHashQueryString('detailind');
+                $.ajax({
+                    dataType: 'jsonp',
+                    url: self.listData[detailInd].url + uid + '&action=up&ts=' + this.getNowFormatDate(),
+                    success: function (curPageData) {
+                        if(curPageData.length == 0 || curPageData == null){
+
+                            self.mescroll.endErr();
+                        }
+                        //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+                        //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+
+                        //方法一(推荐): 后台接口有返回列表的总页数 totalPage
+                        //必传参数(当前页的数据个数, 总页数)
+                        self.mescroll.endByPage(curPageData[0].item.length, curPageData.totalPage);
+
+                        //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                        //必传参数(当前页的数据个数, 总数据量)
+                        //mescroll.endBySize(curPageData.length, totalSize);
+
+                        //方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+                        //必传参数(当前页的数据个数, 是否有下一页true/false)
+                        //mescroll.endSuccess(curPageData.length, hasNext);
+
+                        //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.
+                        //如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据
+                        //如果传了hasNext,则翻到第二页即可显示无更多数据.
+//                        self.mescroll.endSuccess(curPageData[0].item.length);
+                        //设置列表数据
+                        //setListData(curPageData);//自行实现
+                        var newArray = [],
+                            currentArray = [];
+                        self.list.forEach(function (t) {
+                            currentArray.push(t.staticId);
+                        });
+
+                        curPageData[0].item.forEach(function (item) {
+//                            newArray.push(item.staticId);
+                            if(item.type == 'doc' && item.hasVideo != true && item.source != '凤凰视频'){
+                                newArray.push(item);
+//                                    self.list.push(item);
+                            }else if(item.type == 'slide' && item.hasVideo != true){
+                                newArray.push(item);
+//                                    self.list.push(item);
+                            }
+                        });
+
+                        if(newArray.length == 0){
+                            self.isLock = true;
+                            self.mescroll.lockUpScroll(self.isLock);
+                            alert('无更多数据');
+                            $('.mescroll-upwarp').hide();
+                        }else if(isContained(currentArray,newArray[0].staticId)){
+                            self.isLock = true;
+                            alert('无更多数据');
+                            self.mescroll.lockUpScroll(self.isLock);
+                            $('.mescroll-upwarp').hide();
+                        }else {
+                            self.list = self.list.concat(newArray);
+                        }
+                        mobile_ap_functions.loadTemp();
+                        console.log('self',self.list);
+                    },
+                    error: function () {
+                        //联网失败的回调,隐藏下拉刷新和上拉加载的状态
+                        self.mescroll.endErr();
+                        alert('网络加载异常')
+                    }
+                })
+            },
+            getNowFormatDate:function(){
+                var date = new Date();
+                var seperator1 = "-";
+                var seperator2 = ":";
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                    + " " + date.getHours() + seperator2 + date.getMinutes()
+                    + seperator2 + date.getSeconds();
+                return currentdate;
+            },
+            downCallback:function () {
+                var _this = this;
+                var detailInd = getHashQueryString('detailind');
+                $.ajax({
+                    dataType : 'jsonp',
+                    url: _this.listData[detailInd].url + uid + '&action=down&ts=' + this.getNowFormatDate(),
+                    success:function (data) {
+                        //联网成功的回调,隐藏下拉刷新的状态;
+                        _this.mescroll.endSuccess();//无参
+                        //设置数据
+                        //setXxxx(data);//自行实现
+                        var newArray = [],
+                            currentArray = [];
+                        _this.list.forEach(function (t) {
+                            currentArray.push(t.staticId);
+                        });
+
+                        data[0].item.forEach(function (item) {
+                            if(item.type == 'doc' && item.hasVideo != true && item.source != '凤凰视频'){
+                                newArray.push(item);
+//                                _this.list.unshift(item);
+                            }else if(item.type == 'slide' && item.hasVideo != true){
+                                newArray.push(item);
+//                                _this.list.unshift(item);
+                            }
+                        });
+
+                        if(newArray.length == 0){
+                            _this.isLock = true;
+                            alert('刷新失败');
+                        }else if(isContained(currentArray,newArray[0].staticId)){
+                            _this.isLock = true;
+                            alert('刷新失败');
+                        }else {
+                            _this.list = newArray.concat(_this.list);
+                        }
+                        console.log('down',_this.list);
+
+                    },
+                    error: function () {
+                        //联网失败的回调,隐藏下拉刷新和上拉加载的状态
+                        _this.mescroll.endErr();
+                    }
+                })
+            },
+            getData:function (index) {
+                $.ajax({
+                    dataType: 'jsonp',
+                    url: this.listData[index].url + uid + '&action=default',
+                    success:function (res) {
+//                        console.log(res);
+//                        this.list = res[0].item;
+                        var that = this;
+                        if(res.length == 0 || res == null){
+                            that.dataerror = true;
+                        }else{
+                            res[0].item.forEach(function (item) {
+                                if(item.type == 'doc' && item.hasVideo != true && item.source != '凤凰视频'){
+                                    that.list.push(item);
+                                }else if(item.type == 'slide' && item.hasVideo != true){
+                                    that.list.push(item);
+                                }
+                            });
+                        }
+                    }.bind(this)
+                })
+            },
+            getNavData:function (index,url) {
+                this.list = [];
+                console.log(index,url);
+                $.ajax({
+                    dataType: 'jsonp',
+                    url: url + uid + '&action=default',
+                    success:function (res) {
+                        var that = this;
+                        res[0].item.forEach(function (item) {
+                            if(item.type == 'doc' && item.hasVideo != true && item.source != '凤凰视频'){
+                                that.list.push(item);
+                            }else if(item.type == 'slide' && item.hasVideo != true){
+                                that.list.push(item);
+                            }
+                        });
+                    }.bind(this)
+                });
+                window.location.href = 'http://m.ifeng.com/jinlitest?ch=ref_jlsp_dl1&detailind=' + index;
+            },
+            goDetail:function (newaid) {
+                window.location.href = 'http://m.ifeng.com/gioneedetail' + '?ch=ref_jlsp_dl1&aid=' + newaid;
+            },
+            dataAgain:function () { //重新获取数据
+                this.list = [];
+                var nowN = getHashQueryString('detailind');
+                this.dataerror = false;
+                $('.downwarp-content').show();
+                $('.mescroll-upwarp').show();
+                $.ajax({
+                    dataType:'jsonp',
+                    url: this.listData[nowN].url + uid + '&action=default',
+                    success:function (data) {
+                        var that = this;
+                        data[0].item.forEach(function (item) {
+                            if(item.type == 'doc' && item.hasVideo != true && item.source != '凤凰视频'){
+                                that.list.push(item);
+                            }else if(item.type == 'slide' && item.hasVideo != true){
+                                that.list.push(item);
+                            }
+                        });
+                    }.bind(this)
+                });
+                location.reload();
+            }
+        }
+    });
+
+</script>
+<script src="https://p1.ifengimg.com/a/2016/0809/sta_collection_common_iifeng_v4.js"></script>
+
+<script src="https://p3.ifengimg.com/a/2017/0329/sta_collection_iifeng_pv_v8.js"></script>
+</body>
+</html>​
